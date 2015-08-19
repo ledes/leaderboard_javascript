@@ -1,4 +1,4 @@
-var gameInfo, team, teamConstructor, score
+var gameInfo, team, teamConstructor, score, arrayOfTeams, teams_score, sort_method, prettyBox
 
 
 gameInfo = function(){
@@ -30,14 +30,29 @@ gameInfo = function(){
  ]
 }
 
-
-// first we create the teams
-// we include the teams in array.
-// iterate through your array and output the name,
-// number of wins, and number of losses for each team.
-
-
-teamNames =[];
+teamConstructor = function(){
+  teamNames =[];
+  for(var i = 0; i < gameInfo().length; i++){
+      var team1 ={
+        name: gameInfo()[i].home_team,
+        rank: 0,
+        wins: 0,
+        losses: 0
+      };
+      var team2 ={
+      name: gameInfo()[i].away_team,
+      rank: 0,
+      wins: 0,
+      losses: 0
+    };
+    arrayOfTeams(team1);
+    arrayOfTeams(team2);
+  };
+    teams_score();
+    sort_method();
+    rank();
+    return prettyBox();
+};
 
 arrayOfTeams = function(team){
   var teamFlag = true
@@ -71,125 +86,33 @@ teams_score = function(){
   }
 }
 
-teamConstructor = function(){
+sort_method = function(){
+  teamNames.sort(function(x, y){
+    return x.losses-y.losses;
+  });
+}
 
-for(var i = 0; i < gameInfo().length; i++){
-    var team1 ={
-      name: gameInfo()[i].home_team,
-      rank: [],
-      wins: 0,
-      losses: 0
-    };
-    var team2 ={
-    name: gameInfo()[i].away_team,
-    rank: [],
-    wins: 0,
-    losses: 0
+
+rank = function(){
+  var n = 1;
+  for (var i = 0; i < teamNames.length; i++) {
+    teamNames[i].rank += n;
+    n++;
   };
+}
 
-  arrayOfTeams(team1);
-  arrayOfTeams(team2);
+prettyBox = function(){
+  var summary = "";
+      summary +="--------------------------------------------\n";
+      summary +=  "| Names" + "      " + "Rank"+"      "+ "Wins"+ "      " + "Losses |\n"
 
-};
-  teams_score();
-  return teamNames;
-};
+      for (var i = 0; i < teamNames.length; i++) {
+        summary += "| " + teamNames[i].name +  "         "  + teamNames[i].rank + "         " +  teamNames[i].wins  +  "         "  + teamNames[i].losses + "|\n"
+      }
+      summary +="--------------------------------------------";
+  return summary;
+}
+
 
 
 console.log(teamConstructor())
-
-
-
-
-
-
-///extra work done:
-
-// teamConstructor = function(){
-//   var homeTeamNames =[];
-//   var awayTeamNames = [];
-//
-//   for(var i = 0; i < gameInfo().length; i++){
-//     var newTeam ={
-//       name: gameInfo()[i].home_team,
-//       rank: [],
-//       wins: 0,
-//       losses: 0
-//     };
-//     homeTeamNames.push(newTeam)
-//   };
-//
-//   for(var i = 0; i < gameInfo().length; i++){
-//     var newTeam ={
-//     name: gameInfo()[i].away_team,
-//     rank: [],
-//     wins: 0,
-//     losses: 0
-//   };
-//   awayTeamNames.push(newTeam)
-//   };
-//
-//   for(var i = 0; i < gameInfo().length; i++){
-//     if (gameInfo()[i].home_score > gameInfo()[i].away_score){
-//         homeTeamNames[i].wins++;
-//         awayTeamNames[i].losses++;
-//
-//     }else {
-//       awayTeamNames[i].wins++;
-//       homeTeamNames[i].losses++;
-//     }
-//   };
-//   teamNames = homeTeamNames.concat(awayTeamNames);
-//   return teamNames;
-// };
-
-//////////////
-// teamConstructor = function(){
-//   var teamNames =[];
-// //gameInfo().length * 2.
-//   for(var i = 0; i < gameInfo().length; i++){
-//     var newTeam ={
-//       name: gameInfo()[i].home_team,
-//       rank: 0,
-//       // if gameinfo name == teamNames and scores...++
-//       wins: 0,
-//       losses: 0
-//     };
-//     teamNames.push(newTeam)
-//   };
-//
-//   return teamNames;
-// };
-////////////
-//
-// team = {
-//   name: "",
-//   rank: [],
-//   wins: [],
-//   losses: []
-// };
-//
-// var teamNames =[];
-//  teamConstructor = function(gameInfo){
-//
-//    for(var i = 0; i < gameInfo().length; i++){
-//     // if (_.contains(teamNames, gameInfo){
-//     //   count++;
-//       // teamNames.push(gameInfo()[i].away_team);
-//   // }else {
-//     teamNames.push(gameInfo()[i].home_team);
-//   // };
-// };
-//    return teamNames;
-// };
-//
-// var arrayUnique = function(a) {
-//    return a.reduce(function(p, c) {
-//        if (p.indexOf(c) < 0) p.push(c);
-//        return p;
-//    }, []);
-// };
-//
-// var new_arr = arrayUnique(teamNames);
-// //
-// // count =0
